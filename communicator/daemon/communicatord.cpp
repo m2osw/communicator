@@ -693,7 +693,7 @@ void communicatord::load_list_of_local_services()
             f_local_services_list.insert(service_name);
 
             SNAP_LOG_DEBUG
-                << "Known local service: \""
+                << "known local service: \""
                 << service_name
                 << "\"."
                 << SNAP_LOG_SEND;
