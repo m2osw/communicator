@@ -91,7 +91,10 @@ public:
 
     // new callbacks
     //
-    virtual void                service_status(std::string const & service, std::string const & status);
+    virtual void                service_status(
+                                      std::string const & server
+                                    , std::string const & service
+                                    , std::string const & status);
 
 private:
     void                        msg_status(ed::message & msg);

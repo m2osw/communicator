@@ -592,25 +592,39 @@ bool communicator_connection::send_message(ed::message & msg, bool cache)
  *     communicator::g_name_communicator_value_down
  * \endcode
  *
+ * \note
+ * The \p server parameter may be different from the sending server in
+ * the original message.
+ *
+ * \param[in] server  The name of the server the service runs on.
  * \param[in] service  The name of the service of which the status changed.
  * \param[in] status  The new status (usually UP or DOWN).
  */
-void communicator_connection::service_status(std::string const & service, std::string const & status)
+void communicator_connection::service_status(
+      std::string const & server
+    , std::string const & service
+    , std::string const & status)
 {
-    snapdev::NOT_USED(service, status);
+    snapdev::NOT_USED(server, service, status);
 }
 
 
 void communicator_connection::msg_status(ed::message & msg)
 {
-    if(!msg.has_parameter(::communicator::g_name_communicator_param_service)
-    || !msg.has_parameter(::communicator::g_name_communicator_param_status))
+    if(!msg.has_parameter(communicator::g_name_communicator_param_service)
+    || !msg.has_parameter(communicator::g_name_communicator_param_status))
     {
         return;
     }
+    std::string server;
+    if(msg.has_parameter(communicator::g_name_communicator_param_server_name))
+    {
+        server = msg.get_parameter(communicator::g_name_communicator_param_server_name);
+    }
     service_status(
-          msg.get_parameter(::communicator::g_name_communicator_param_service)
-        , msg.get_parameter(::communicator::g_name_communicator_param_status));
+          server
+        , msg.get_parameter(communicator::g_name_communicator_param_service)
+        , msg.get_parameter(communicator::g_name_communicator_param_status));
 }
 
 
