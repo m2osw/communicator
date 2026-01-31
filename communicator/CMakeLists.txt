@@ -37,6 +37,7 @@ add_library(${PROJECT_NAME} SHARED
     loadavg.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/names.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/names.h
+    snapcatch2.cpp
     version.cpp
 
     # The following are parts of the daemon but it has to be in a library
@@ -114,6 +115,7 @@ install(
         flags.h
         loadavg.h
         ${CMAKE_CURRENT_BINARY_DIR}/names.h
+        snapcatch2.hpp
         ${CMAKE_CURRENT_BINARY_DIR}/version.h
 
     DESTINATION
