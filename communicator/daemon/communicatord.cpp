@@ -651,6 +651,7 @@ void communicatord::init_max_gossip_timeout()
     if(!advgetopt::validator_duration::convert_string(
                   f_opts.get_string("max_gossip_timeout")
                 , advgetopt::validator_duration::VALIDATOR_DURATION_DEFAULT_FLAGS
+                , 1.0
                 , timeout))
     {
         SNAP_LOG_CONFIGURATION_WARNING

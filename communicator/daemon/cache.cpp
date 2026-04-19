@@ -154,6 +154,7 @@ cache_message_t cache::cache_message(ed::message & msg)
             if(!advgetopt::validator_duration::convert_string(
                       it->second
                     , advgetopt::validator_duration::VALIDATOR_DURATION_DEFAULT_FLAGS
+                    , 1.0
                     , value))
             {
                 SNAP_LOG_ERROR
