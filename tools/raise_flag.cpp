@@ -196,7 +196,7 @@ advgetopt::option const g_command_line_options[] =
               advgetopt::GETOPT_FLAG_REQUIRED
             , advgetopt::GETOPT_FLAG_MULTIPLE
             , advgetopt::GETOPT_FLAG_GROUP_OPTIONS>())
-        , advgetopt::Help("a comma separated list of tags.")
+        , advgetopt::Help("a space separated list of tags.")
         , advgetopt::Separators(g_tag_separators)
     ),
     advgetopt::define_option(

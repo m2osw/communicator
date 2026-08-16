@@ -1,0 +1,124 @@
+.TH "raise-flag" 1 "Sat Aug 15 2026" "Version 2.0.13" "communicator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+raise-flag - raise or drop a system flag
+.SH SYNOPSIS
+.B raise-flag
+[\fB--OPTION\fR] [<unit> <section> <flag> [<message>]]
+.SH DESCRIPTION
+
+The \fBraise-flag\fR records <message> as an error the administrator has to
+take care of.
+
+The <unit> and <section> are used to organize the flags. The <unit> generally
+represents the project which raises the flag because it is affected by an
+issue.
+
+The <section> is the part of the project which caused the issue.
+
+Finally, the <flag> is the name of the issue. When just this name is
+sufficient, the message is optional.
+
+The command supports the following options:
+
+.TP
+\fB\-\-automatic | \-a
+mark the flag as automatically token down. This means the system can detect
+that it is stable again and remove the flag when that happens. See also
+the \-\-manual option.
+
+.TP
+\fB\-\-count
+count the number of raised flags on this computer and prints the number to
+stdout.
+
+.TP
+\fB\-\-down
+lower the flag. This means the flag is removed (deleted). It will not
+cause alerts anymore.
+
+.TP
+\fB\-\-function | \-f <function-name>
+name the function raising the flag. This is can be used along the \-\-up
+command.
+
+.TP
+\fB\-\-group | \-g <group-name>
+name the group raising the flag. The group represents the project managing
+that flag. By default, the value is set to communicator.
+
+.TP
+\fB\-\-help
+prints out the help page.
+
+.TP
+\fB\-\-line | \-n <line-number>
+the line number on which the raise-flag is being called.
+
+.TP
+\fB\-\-list <format>
+list the currently raised flags. The <format> parameter can be set to "text"
+or "json".
+
+.TP
+\fB\-\-manual | \-m
+mark the flag as a manual flag. This means it will have to be taken down
+manually by the administrator to get deleted. This also the \-\-automatic
+option.
+
+.TP
+\fB\-\-priority | \-p <number>
+defines the priority of this message. High priority messages get sent as
+alerts to administrators. Low priority messages are just recorded on the
+machine and can be viewed through the administration website.
+
+.TP
+\fB\-\-raised | \-u [<name>]
+check whether any flag is raised or the specified <name> flag is raised.
+
+.TP
+\fB\-\-source | \-s [<filename>]
+name of the source file raising this flag. In C++, this is automatic.
+With the command line tool, it is a good idea to give the path and filename
+of the script raising the flag. This is expected to be used with the \-\-up
+command.
+
+.TP
+\fB\-\-tags | -t <tag1> <tag2> ...
+attach the specified tags to the flag being raised. This is used along the
+\-\-up command. Tags are used to group raised flags in different ways. At
+the moment, there are no specific rules other that you should not use tags
+as priority names. The \-\-priority should be used for that purpose.
+
+.TP
+\fB\-\-up | -u <unit> <section> <flag> [<message>]
+raise the flag. If no command is specified, the \-\-up command is viewed as
+the default command. The optional <message> is expected to be a description
+of what is happening especially if <flag> is used in different places for
+different situations.
+
+.TP
+\fB\-\-version
+prints out the version, which is the communicator's project version.
+
+.SH AUTHOR
+
+Written by Alexis Wilke.
+
+.SH REPORTING BUGS
+
+https://github.com/m2osw/communicator/issues
+
+.SH COPYRIGHT
+
+Copyright (c) 2019-2026  Made to Order Software Corp.  All Rights Reserved
+.br
+License GPLv3+.
+.br
+This is free software: you are free to change and redistribute it.
+.br
+There is NO WARRANTY, to the extent permitted by law.
+
+.SH SEE ALSO
+Full documentation at: <https://snapwebsites.org/>

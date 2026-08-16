@@ -7,8 +7,6 @@ usr/lib/communicator/plugins
 
 # Configuration Files
 #
-conf/flags.conf                                                       etc/communicator/
-conf/logger/raise-flag.conf                                           usr/share/snaplogger/etc/
 usr/share/communicator/options
 
 # README.md
