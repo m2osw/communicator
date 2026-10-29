@@ -1029,10 +1029,8 @@ bool communicatord::init_secure_remote_listener()
 
     // make sure the address is unique
     //
-    addr::addr_range::vector_t const & ranges(u.address_ranges());
-    if(ranges.size() != 1
-    || ranges[0].size() != 1
-    || !ranges[0].has_from())
+    addr::addr::vector_t const & addresses(u.addresses());
+    if(addresses.size() != 1)
     {
         SNAP_LOG_ERROR
             << "the \"secure_listen=...\" parameter must resolved into a single address. \""
@@ -1042,7 +1040,7 @@ bool communicatord::init_secure_remote_listener()
         return false;
     }
 
-    addr::addr const a(ranges[0].get_from());
+    addr::addr const a(addresses[0]);
 
     // this listener is the secure listener so it is expected to use
     // a public or at least a private IP address

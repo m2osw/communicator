@@ -161,12 +161,12 @@ class tcp_stream
 {
 public:
     tcp_stream(
-              addr::addr_range::vector_t const & ranges
+              addr::addr::vector_t const & addresses
             , ed::mode_t mode
             , std::string const & service_name
             , ed::pause_durations const & retries)
         : tcp_client_permanent_message_connection(
-              ranges
+              addresses
             , mode
             , retries
             , true
@@ -385,8 +385,8 @@ void communicator_connection::process_communicator_options()
     }
     else
     {
-        addr::addr_range::vector_t const & ranges(u.address_ranges());
-        if(ranges.size() <= 0)
+        addr::addr::vector_t const & addresses(u.addresses());
+        if(addresses.size() <= 0)
         {
             // I don't think this is possible
             //
@@ -399,14 +399,13 @@ void communicator_connection::process_communicator_options()
 
         if(scheme == g_name_communicator_scheme_cd)
         {
-            for(auto const & r : ranges)
+            for(auto const & a : addresses)
             {
-                if((r.has_from() && !r.get_from().is_lan())
-                || (r.has_to()   && !r.get_to().is_lan()))
+                if(!a.is_lan())
                 {
                     std::stringstream ss;
                     ss << "the \"cd:\" scheme requires a LAN address. For public addresses, please use \"cds:\" instead. "
-                       << (r.has_from() ? r.get_from() : r.get_to())
+                       << a
                        << " will not work.";
                     security_issue const e(ss.str());
                     SNAP_LOG_FATAL
@@ -416,38 +415,33 @@ void communicator_connection::process_communicator_options()
                 }
             }
             f_communicator_connection = std::make_shared<tcp_stream>(
-                      ranges
+                      addresses
                     , ed::mode_t::MODE_PLAIN
                     , f_service_name
                     , retries);
         }
         else if(scheme == g_name_communicator_scheme_cds)
         {
-            for(auto const & r : ranges)
+            for(auto const & a : addresses)
             {
-                if((r.has_from() && r.get_from().get_network_type() == addr::network_type_t::NETWORK_TYPE_LOOPBACK)
-                || (r.has_to()   && r.get_to().get_network_type() == addr::network_type_t::NETWORK_TYPE_LOOPBACK))
+                if(a.get_network_type() == addr::network_type_t::NETWORK_TYPE_LOOPBACK)
                 {
                     SNAP_LOG_IMPORTANT
                         << "the \"cds:\" scheme is not likely to work on the loopback network ("
-                        << (r.has_from() ? r.get_from() : r.get_to())
+                        << a
                         << ")."
                         << SNAP_LOG_SEND;
                 }
             }
             f_communicator_connection = std::make_shared<tcp_stream>(
-                      ranges
+                      addresses
                     , ed::mode_t::MODE_ALWAYS_SECURE
                     , f_service_name
                     , retries);
         }
         else if(scheme == g_name_communicator_scheme_cdu)
         {
-            // I don't think that the URI object can return a "to" only range
-            //
-            if(ranges.size() != 1
-            || ranges[0].size() != 1
-            || !ranges[0].has_from())
+            if(addresses.size() != 1)
             {
                 connection_unavailable const e("the \"cdu:\" requires exactly one address to work.");
                 SNAP_LOG_FATAL
@@ -458,7 +452,7 @@ void communicator_connection::process_communicator_options()
 
             // we listen on the "Server" IP:port (port will be auto-assigned)
             //
-            addr::addr server(ranges[0].get_from());
+            addr::addr server(addresses[0]);
             server.set_port(0);
 
             if(!server.is_lan())
@@ -475,12 +469,12 @@ void communicator_connection::process_communicator_options()
 
             // we send messages on the "Client" IP:port
             //
-            addr::addr const client(ranges[0].get_from());
+            addr::addr const client(addresses[0]);
 
-            udp_dgram::pointer_t conn = std::make_shared<udp_dgram>(
+            udp_dgram::pointer_t conn(std::make_shared<udp_dgram>(
                       server
                     , client
-                    , f_service_name);
+                    , f_service_name));
             conn->simulate_connected();
             f_communicator_connection = conn;
         }
