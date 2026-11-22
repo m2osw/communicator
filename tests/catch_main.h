@@ -67,6 +67,5 @@ inline char32_t rand_char(bool full_range = false)
 
 
 
-}
-// namespace SNAP_CATCH2_NAMESPACE
+} // namespace SNAP_CATCH2_NAMESPACE
 // vim: ts=4 sw=4 et

@@ -16,14 +16,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-// self
-//
-#include    "catch_main.h"
-
-
 // communicator
 //
 #include    <communicator/version.h>
+
+
+// self
+//
+#include    "catch_main.h"
 
 
 // last include
